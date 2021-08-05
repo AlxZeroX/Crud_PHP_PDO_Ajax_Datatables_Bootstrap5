@@ -18,7 +18,7 @@
 
 <body>
 
-    <div class="container">
+    <div class="container fondo">
 
         <h1 class="text-center">CRUD Con Php, PDO, Ajax y DataTables.js</h1>
         <h1 class="text-center">By Cristian Martinez</h1>

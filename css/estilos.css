@@ -1,0 +1,15 @@
+body{
+    margin: 0;
+    padding: 0;
+    background-color: cadetblue;
+
+}
+
+.fondo {
+    width: 1270px;
+    padding: 20px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 55px;
+    margin-top: 55px;
+}
