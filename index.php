@@ -85,7 +85,7 @@
                             <br>
 
                             <label for="email">Ingrese el Email</label>
-                            <input type="email" name="Email" id="Email" class="form-control">
+                            <input type="email" name="email" id="email" class="form-control">
                             <br>
 
                             <label for="imagen">Selecione una Imagen</label>
@@ -113,63 +113,70 @@
     <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
 
 
-    <!-- Optional JavaScript; choose one of the two! -->
+
 
     <!-- Option 1: Bootstrap Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 
     <script type="text/javascript">
         $(document).ready(function() {
-            $("#botoncrear").click(function() {
+            $("#botonCrear").click(function() {
                 $("#formulario")[0].reset();
                 $(".modal-title").text("Crear Usuario");
                 $("#action").val("Crear");
                 $("#operacion").val("Crear");
-                $("#imagen:subida").html("");
+                $("#imagen_subida").html("");
             })
 
-
-
             var dataTable = $('#datos_usuario').DataTable({
-                "processing": true,
-                "serverSide": true,
-                "order": [],
+                "processing":true,
+                "serverSide":true,
+                "order":[],
                 "ajax": {
                     url: "obtener_registros.php",
                     type: "POST"
                 },
-                "columnsDefs": [{
+                "columnsDefs": [
+                    {
                     "targets": [0, 3, 4],
                     "ordertable": false,
-                }, ]
+                    },
+                ]
             });
 
-            $(document).on('submit', '#formulario', function(event) {
+            $(document).on('submit', '#formulario', function(event){
                 event.preventDefault();
                 var nombres = $("#nombre").val();
                 var apellidos = $("#apellidos").val();
                 var telefono = $("#telefono").val();
                 var email = $("#email").val();
-                var extension = $("#imagen_usuario").val().split('.').pop().toLowerCase();
+                var extension = $('#imagen_usuario').val().split('.').pop().toLowerCase();
 
-                if (extension != '') {
-                    if (jQuery.inArray(extension, ['gif', 'png', 'jpg', 'jpeg']) == -1) alert("FORMATO DE IMAGEN NO VALIDO");
-                    $("#imagen_usuario").val('');
-                    return false;
+                if (extension != '') 
+                {
+                    if (jQuery.inArray(extension, ['gif', 'png', 'jpg', 'jpeg']) == -1) 
+                    {
+                        alert("FORMATO DE IMAGEN NO VALIDO");
+                        $('#imagen_usuario').val('');
+                        return false;
+                    }
                 }
 
-                if (nombres != '' && apellidos != '' && email != '') {
-                    $.ajax({
+                if (nombres != '' && apellidos != '' && email != '') 
+                {
+                    $.ajax
+                    ({
                         url: "crear.php",
                         method: "POST",
                         data: new FormData(this),
                         contentType: false,
                         processData: false,
-                        success: function(data) {
+                        success: function(data) 
+                        {
                             alert(data);
                             $('#formulario')[0].reset();
-                            $('#modalUsuario').modal.hide();
-                            dataTable.ajax, reload();
+                            $('#modalUsuario').modal('hide');
+                            dataTable.ajax.reload();
                         }
                     });
                 } else {

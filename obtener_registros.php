@@ -24,14 +24,14 @@
 
     $stmt = $conexion->prepare($query);
     $stmt->execute();
-    $_resultado = $stmt->fetchAll();
+    $resultado = $stmt->fetchAll();
     $datos = array();
     $filtered_rows = $stmt->rowCount();
-    foreach ($_resultado as $fila) {
+    foreach ($resultado as $fila) {
         $imagen = '';
         if ($fila["imagen"] != '') {
-            $imagen = '<img src="img/' . $fila["imagen"] . '" class="img-thumbnail" width="50" height="35"/>';
-        } else {
+            $imagen = '<img src="img/' . $fila["imagen"] . '"class="img-thumbnail" width="50" height="35" />';
+        }else{
             $imagen = '';
         }
 
