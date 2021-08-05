@@ -7,8 +7,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css">
+
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
 
     <link rel="stylesheet" href="css/estilos.css">
@@ -106,7 +108,7 @@
 
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 
     <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
 
@@ -114,8 +116,69 @@
     <!-- Optional JavaScript; choose one of the two! -->
 
     <!-- Option 1: Bootstrap Bundle with Popper -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $("#botoncrear").click(function() {
+                $("#formulario")[0].reset();
+                $(".modal-title").text("Crear Usuario");
+                $("#action").val("Crear");
+                $("#operacion").val("Crear");
+                $("#imagen:subida").html("");
+            })
+
+
+
+            var dataTable = $('#datos_usuario').DataTable({
+                "processing": true,
+                "serverSide": true,
+                "order": [],
+                "ajax": {
+                    url: "obtener_registros.php",
+                    type: "POST"
+                },
+                "columnsDefs": [{
+                    "targets": [0, 3, 4],
+                    "ordertable": false,
+                }, ]
+            });
+
+            $(document).on('submit', '#formulario', function(event) {
+                event.preventDefault();
+                var nombres = $("#nombre").val();
+                var apellidos = $("#apellidos").val();
+                var telefono = $("#telefono").val();
+                var email = $("#email").val();
+                var extension = $("#imagen_usuario").val().split('.').pop().toLowerCase();
+
+                if (extension != '') {
+                    if (jQuery.inArray(extension, ['gif', 'png', 'jpg', 'jpeg']) == -1) alert("FORMATO DE IMAGEN NO VALIDO");
+                    $("#imagen_usuario").val('');
+                    return false;
+                }
+
+                if (nombres != '' && apellidos != '' && email != '') {
+                    $.ajax({
+                        url: "crear.php",
+                        method: "POST",
+                        data: new FormData(this),
+                        contentType: false,
+                        processData: false,
+                        success: function(data) {
+                            alert(data);
+                            $('#formulario')[0].reset();
+                            $('#modalUsuario').modal.hide();
+                            dataTable.ajax, reload();
+                        }
+                    });
+                } else {
+                    alert("ALGUNOS CAMPOS SON OBLIGATORIOS");
+                }
+            });
+
+        });
+    </script>
 
 </body>
 

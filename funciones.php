@@ -22,7 +22,7 @@
         }
     }
 
-    function obtener_todos_registros ($id_usuario){
+    function obtener_todos_registros (){
         include('conexion.php');
         $stmt = $conexion -> prepare("SELECT * FROM usuarios");
         $stmt->execute();
